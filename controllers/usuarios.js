@@ -19,7 +19,7 @@ const usuariosPut= (req, res = response) => {
 
     const {id} = req.params;
 
-    res.status(400).json({
+    res.json({
         msg: 'put API - Controlador',
         id
     })
@@ -29,7 +29,7 @@ const usuariosPost= (req, res = response) => {
 
     const { nombre, edad } = req.body;
 
-    res.status(400).json({
+    res.json({
         msg: 'post API - Controlador',
         nombre,
         edad
@@ -37,13 +37,13 @@ const usuariosPost= (req, res = response) => {
 }
 
 const usuariosDelete= (req, res = response) => {
-    res.status(400).json({
+    res.json({
         msg: 'delete API - Controlador'
     })
 }
 
 const usuariosPatch= (req, res = response) => {
-    res.status(400).json({
+    res.json({
         msg: 'patch API - Controlador'
     })
 }
