@@ -16,8 +16,8 @@ class Server {
         this.middlewares();
 
         // Rutas de mi aplicación
-
         this.routes();
+        
     }
 
     async conectarDB() {
