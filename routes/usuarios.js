@@ -2,10 +2,17 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 
-const { validarCampos } = require('../middlewares/validar-campos');
+// Importanción de Middlewares
+const {
+    validarCampos, 
+    validarJWT, 
+    esAdminRole, 
+    tieneRole
+} = require('../middlewares');
+
+const { esRoleValido, emailExiste, existeUsuarioPorId } = require('../helpers/db-validators');
 
 const { usuariosGet, usuariosPut, usuariosPost, usuariosDelete, usuariosPatch } = require('../controllers/usuarios');
-const { esRoleValido, emailExiste, existeUsuarioPorId } = require('../helpers/db-validators');
 
 const router = Router();
 
@@ -27,6 +34,9 @@ router.post('/', [
 ] ,usuariosPost );
 
 router.delete('/:id', [
+    validarJWT,
+    esAdminRole,
+    tieneRole('ADMIN_ROLE'),
     check('id', 'No es un ID válido').isMongoId(),
     check('id').custom( existeUsuarioPorId ),
     validarCampos

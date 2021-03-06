@@ -35,7 +35,10 @@ const UsuarioSchema = Schema({
 });
 
 UsuarioSchema.methods.toJSON = function() {
-    const { __v, password, ...usuario } = this.toObject();
+    // Todo lo que está antes del ", ...usuario" no se mostrará cuando se genere un GET.
+    const { __v, password, _id, ...usuario } = this.toObject();
+    // Cambiar nombre de variale _id por uid (Solo para mostrar, no para cambiarlo desde la BD).
+    usuario.uid = _id;
     return usuario;
 }
 

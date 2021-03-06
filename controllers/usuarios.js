@@ -70,8 +70,9 @@ const usuariosDelete= async(req, res = response) => {
     
     // Dejar inactivo a usuario - Eliminación no física - Recomendado
     const usuario = await Usuario.findByIdAndUpdate( id, {estado: false} );
+    const usuarioAutenticado = req.usuario;
 
-    res.json(usuario);
+    res.json({ usuario, usuarioAutenticado });
 
 
 
