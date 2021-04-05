@@ -2,14 +2,18 @@ const express = require('express')
 const cors = require('cors');
 const colors = require('colors');
 const fileUpload = require('express-fileupload');
+const { createServer } = require('http');
 
 const { dbConnection } = require('../database/config');
+const { socketController } = require('../sockets/controller');
 
 class Server {
 
     constructor() {
-        this.app = express();
-        this.port = process.env.PORT;
+        this.app    = express();
+        this.port   = process.env.PORT;
+        this.server = createServer( this.app );
+        this.io     = require('socket.io')(this.server);
 
         this.paths = {
             auth: '/api/auth',
@@ -28,6 +32,9 @@ class Server {
 
         // Rutas de mi aplicación
         this.routes();
+
+        // Sockets
+        this.sockets();
         
     }
 
@@ -66,9 +73,13 @@ class Server {
 
     }
 
+    sockets() {
+        this.io.on("connection", ( socket ) => socketController(socket, this.io) );
+    }
+
     listen() {
-        this.app.listen( this.port, () => {
-            console.log('Servidor corriendo en el puerto'.green, this.port.blue );
+        this.server.listen( this.port, () => {
+            console.log('Servidor corriendo en el puerto'.green, this.port.cyan );
         });
     }
 
